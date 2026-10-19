@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ویرایشگر هوشمند رزومه</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#f3f1ff;--bg2:#fff;--card:#fff;--soft:#f1efff;--tx:#1b1840;--mut:#6b6b8f;--bd:#e4e0fb;--ac:#6d5dfc;--g:linear-gradient(90deg,#8b5cf6,#4f7bff);--t:linear-gradient(90deg,#2e1065,#7c3aed);--ok:#12805c;--warn:#b45309;--sh:0 8px 30px rgba(109,93,252,.10);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1024;--bg2:#171838;--card:#1a1b3b;--soft:#222450;--tx:#eef0ff;--mut:#9ea3c8;--bd:#32356b;--ac:#8b7bff;--t:linear-gradient(90deg,#fff,#cfd4ff);--ok:#4cc79a;--warn:#f0b35a;--sh:0 8px 30px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#0f1024;--bg2:#171838;--card:#1a1b3b;--soft:#222450;--tx:#eef0ff;--mut:#9ea3c8;--bd:#32356b;--ac:#8b7bff;--t:linear-gradient(90deg,#fff,#cfd4ff);--ok:#4cc79a;--warn:#f0b35a;--sh:0 8px 30px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2)) fixed;background-color:var(--bg);color:var(--tx);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.8}
+main{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;border-radius:16px;background:var(--soft);color:var(--ac);display:grid;place-items:center}
+.logo .i{width:30px;height:30px}
+h1{font-size:1.6rem;margin:0;font-weight:800;background:var(--t);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.5}
+.sub{color:var(--mut);margin:0;font-size:.9rem}
+.tools{display:flex;gap:10px;align-items:center}
+.av{width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--ac);display:grid;place-items:center;font-weight:800}
+#thm{display:flex;gap:2px;padding:4px;border-radius:999px;background:var(--card);border:1px solid var(--bd);color:var(--mut)}
+#thm span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+#thm[data-on="light"] .sl,#thm[data-on="dark"] .sd{background:var(--g);color:#fff}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:16px;box-shadow:var(--sh)}
+.hd{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.hd h2{font-size:1.1rem;margin:0}
+.n{background:var(--soft);color:var(--ac);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.9rem;flex:none}
+.d{color:var(--mut);font-size:.88rem;margin:0 0 14px}
+.card h2{font-size:1rem;margin:0 0 10px}
+.split{display:grid;grid-template-columns:1fr;gap:14px;align-items:center}
+@media(min-width:760px){.split{grid-template-columns:1.7fr 1fr}}
+.art{display:none;width:100%;max-width:190px;margin:0 auto}
+@media(min-width:760px){.art{display:block}}
+.side{text-align:center}
+.pill{display:inline-flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px 12px;font-size:.8rem;color:var(--ac);margin-top:6px}
+.pill .i{width:16px;height:16px}
+.drop{border:2px dashed var(--bd);border-radius:16px;padding:22px 14px;text-align:center;color:var(--mut);background:var(--soft)}
+.drop.on{border-color:var(--ac)}
+.drop .up{width:54px;height:54px;border-radius:50%;background:var(--card);color:var(--ac);display:grid;place-items:center;margin:0 auto 8px}
+.drop .up .i{width:28px;height:28px}
+.drop b{display:block;color:var(--tx)}
+textarea,select{width:100%;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:10px;font:inherit}
+textarea{min-height:140px;resize:vertical}
+.ta{position:relative}
+.cnt{position:absolute;left:12px;bottom:10px;font-size:.75rem;color:var(--mut);pointer-events:none}
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--ac);font-size:.9rem}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:10px 18px;background:var(--g);color:#fff;font-weight:600;display:inline-flex;gap:8px;align-items:center;justify-content:center}
+button.sec{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.act{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
+@media(min-width:760px){.act{grid-template-columns:1.2fr 1fr}}
+.act .card{margin:0}
+.big{width:100%;padding:16px 18px;justify-content:space-between;font-size:1.05rem;box-shadow:0 8px 22px rgba(109,93,252,.35)}
+.big .ar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center}
+.cap{color:var(--ac);font-size:.82rem;margin:10px 0 0}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;margin:26px 0 18px}
+.feat div{padding:0 4px}
+.feat .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin:0 auto 6px;background:var(--soft);color:var(--ac)}
+.feat b{display:block;font-size:.92rem}
+.feat small{color:var(--mut);font-size:.76rem;line-height:1.5;display:block}
+.msg{font-size:.9rem;color:var(--mut)}
+.err{color:#d92d20}
+.cols{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:860px){.cols{grid-template-columns:260px 1fr}}
+ul.l{margin:0;padding-inline-start:20px;font-size:.92rem}
+.ok h3{color:var(--ok)}.wn h3{color:var(--warn)}
+h3{font-size:.95rem;margin:0 0 6px}
+.stage{overflow-x:auto;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px}
+#sheet{width:794px;min-height:1123px;background:#fff;color:#1a1a1a;padding:48px 52px;margin:0 auto;font-size:13px;line-height:1.65;outline:none;font-family:Vazirmatn,Tahoma,Arial,sans-serif}
+#sheet h1{font-size:26px;margin:0;color:#111}
+#sheet .t{font-size:15px;color:#2f6df6;margin:2px 0 6px;font-weight:600}
+#sheet .c{font-size:12px;color:#555;margin-bottom:14px}
+#sheet h2{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#111;border-bottom:1.5px solid #2f6df6;padding-bottom:2px;margin:16px 0 8px;display:block}
+#sheet .job{margin-bottom:10px}
+#sheet .jh{display:flex;justify-content:space-between;gap:10px;font-weight:700}
+#sheet .jh span:last-child{font-weight:400;color:#555;white-space:nowrap}
+#sheet .co{color:#555}
+#sheet ul{margin:4px 0 0;padding-inline-start:20px}
+#sheet .sk{display:flex;flex-wrap:wrap;gap:6px}
+#sheet .sk span{background:#eef3ff;color:#1d4ed8;border-radius:6px;padding:1px 9px;font-size:12px}
+#sheet[data-tpl="modern"]{border-top:16px solid #2f6df6}
+#sheet[data-tpl="modern"] h1{color:#2f6df6}
+#sheet[data-tpl="modern"] h2{background:#eef3ff;border:0;padding:3px 10px;border-radius:4px;color:#1d4ed8}
+#sheet[data-tpl="minimal"]{font-family:Georgia,Vazirmatn,Tahoma,serif}
+#sheet[data-tpl="minimal"] h1,#sheet[data-tpl="minimal"] .t,#sheet[data-tpl="minimal"] .c{text-align:center}
+#sheet[data-tpl="minimal"] .t{color:#444}
+#sheet[data-tpl="minimal"] h2{border-bottom:1px solid #111;letter-spacing:.12em}
+#sheet[data-tpl="minimal"] .sk span{background:none;color:#1a1a1a;border:1px solid #bbb}
+#sheet[data-tpl="minimal"] .jh span:last-child,#sheet[data-tpl="minimal"] .co{font-style:italic}
+.hide{display:none}
+</style>
+</head>
+<body>
+<main>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9 M12 12v7 M9 14.5l3-3 3 3"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-wand" viewBox="0 0 24 24"><path d="M15 4V2 M15 10V8 M12 7h-2 M20 7h-2 M4 20 14 10 M16.5 4.5l1 1 M18.5 8.5l1 1"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M19 12H5 M11 6l-6 6 6 6"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M3 12h18 M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z M9 12l2 2 4-4"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><path d="M6 11h12v9H6z M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+</svg>
+<header class="top">
+<div class="brand"><div class="logo"><svg class="i"><use href="#i-doc"/></svg></div><div><h1>ویرایشگر هوشمند رزومه</h1><p class="sub">رزومه‌ات را با هوش مصنوعی، متناسب با هر فرصت شغلی بازنویسی کن</p></div></div>
+<div class="tools"><button id="thm" type="button" aria-label="تغییر حالت روشن/تاریک"><span class="sl"><svg class="i"><use href="#i-sun"/></svg></span><span class="sd"><svg class="i"><use href="#i-moon"/></svg></span></button><div class="av">K</div></div>
+</header>
+
+<section class="card">
+<div class="hd"><span class="n">۱</span><h2>آپلود رزومه PDF</h2></div>
+<p class="d">فایل PDF رزومه‌ات را اینجا بارگذاری کن تا تحلیل شود.</p>
+<div class="split">
+<div>
+<div class="drop" id="drop"><div class="up"><svg class="i"><use href="#i-up"/></svg></div><b>فایل PDF را اینجا بکشید و رها کنید</b><span class="msg">یا روی دکمه زیر کلیک کنید</span>
+<div class="row" style="justify-content:center"><button id="pick" type="button"><svg class="i"><use href="#i-folder"/></svg>انتخاب فایل</button></div>
+<input type="file" id="file" accept="application/pdf" class="hide"><div class="msg" style="margin-top:8px">فقط فایل‌های PDF (حداکثر ۱۰ مگابایت)</div></div>
+<p class="msg" id="pmsg">اگر استخراج متن مرتب نشد، متن را در بخش زیر اصلاح کن.</p>
+<details id="rdet"><summary>مشاهده و ویرایش متن رزومه</summary><div class="ta" style="margin-top:8px"><textarea id="resume" placeholder="متن رزومه‌ی اصلی تو اینجا نمایش داده می‌شود…"></textarea></div></details>
+</div>
+<div class="side"><svg class="art" viewBox="0 0 160 170" aria-hidden="true"><g transform="rotate(-8 80 85)"><rect x="30" y="20" width="100" height="130" rx="12" fill="var(--soft)" stroke="var(--ac)" stroke-opacity=".4"/><circle cx="55" cy="48" r="9" fill="var(--ac)"/><rect x="72" y="42" width="44" height="6" rx="3" fill="var(--ac)" opacity=".4"/><rect x="45" y="75" width="70" height="5" rx="2.5" fill="var(--ac)" opacity=".25"/><rect x="45" y="90" width="62" height="5" rx="2.5" fill="var(--ac)" opacity=".25"/><rect x="45" y="105" width="70" height="5" rx="2.5" fill="var(--ac)" opacity=".25"/><rect x="20" y="62" width="38" height="18" rx="5" fill="#ef4444"/><text x="39" y="75" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></g></svg><span class="pill"><svg class="i"><use href="#i-lock"/></svg>رزومه‌ات امن و خصوصی می‌ماند</span></div>
+</div>
+</section>
+
+<section class="card">
+<div class="hd"><span class="n">۲</span><h2>آگهی شغلی</h2></div>
+<p class="d">متن کامل آگهی شغلی را از جاب‌ویژن یا جابینجا اینجا بچسبان تا رزومه‌ات با آن تطبیق داده شود.</p>
+<div class="split">
+<div><div class="ta"><textarea id="ad" maxlength="5000" placeholder="متن کامل آگهی را اینجا بچسبانید…"></textarea><span class="cnt" id="cnt">۰/۵٬۰۰۰</span></div>
+<p class="msg">لینک آگهی قابل باز شدن نیست (سایت‌ها اجازه نمی‌دهند)؛ لطفاً متن آگهی را بچسبان.</p></div>
+<div class="side"><svg class="art" viewBox="0 0 120 120" aria-hidden="true"><path d="M48 42v-8a6 6 0 0 1 6-6h12a6 6 0 0 1 6 6v8" fill="none" stroke="var(--ac)" stroke-width="6"/><rect x="25" y="42" width="70" height="52" rx="10" fill="var(--ac)"/><rect x="25" y="62" width="70" height="5" fill="#fff" opacity=".35"/><rect x="54" y="58" width="12" height="14" rx="3" fill="#fff"/></svg></div>
+</div>
+</section>
+
+<div class="act">
+<div class="card"><button id="go" type="button" class="big"><span style="display:flex;gap:10px;align-items:center"><svg class="i"><use href="#i-wand"/></svg>ویرایش رزومه برای این آگهی</span><span class="ar"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+<p class="cap">با هوش مصنوعی رزومه‌ات را متناسب با این موقعیت شغلی بازنویسی کن.</p><span class="msg" id="gmsg"></span></div>
+<div class="card"><div class="hd"><svg class="i"><use href="#i-globe"/></svg><h2 style="margin:0">زبان خروجی</h2></div><p class="d" style="margin-bottom:10px">رزومه و محتوای خروجی به این زبان تولید می‌شود.</p>
+<select id="lang"><option value="fa">فارسی (پیشنهادی)</option><option value="en">English</option><option value="auto">هم‌زبان با آگهی</option></select></div>
+</div>
+
+<div class="feat">
+<div><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><b>رزومه‌ی متناسب</b><small>متناسب با نیاز هر آگهی شغلی</small></div>
+<div><span class="ic"><svg class="i"><use href="#i-bolt"/></svg></span><b>سریع و دقیق</b><small>تحلیل و بهینه‌سازی در چند ثانیه</small></div>
+<div><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><b>حفظ حریم خصوصی</b><small>فایل‌ها و اطلاعات شما امن هستند</small></div>
+</div>
+
+<section class="hide" id="out">
+<div class="cols">
+<aside>
+<div class="card ok"><h3>تغییرات انجام‌شده</h3><ul class="l" id="chg"></ul></div>
+<div class="card wn"><h3>خواسته‌ی آگهی که در رزومه‌ات نیست</h3><ul class="l" id="gap"></ul><p class="msg">این موارد اضافه نشدند تا چیزی خلاف واقع در رزومه نباشد.</p></div>
+</aside>
+<div>
+<div class="card"><h2>پیش‌نمایش (قابل ویرایش با کلیک روی متن)</h2>
+<div class="stage"><div id="sheet" contenteditable="true"></div></div>
+<div class="row"><select id="tpl" style="max-width:170px"><option value="classic">قالب: کلاسیک</option><option value="modern">مدرن</option><option value="minimal">مینیمال</option></select><button id="dl" type="button">تأیید و دانلود PDF</button><button id="dw" type="button" class="sec">دانلود Word</button><span class="msg" id="dmsg"></span></div>
+<p class="msg">فایل Word از نسخه‌ی تولیدشده ساخته می‌شود و ویرایش‌های دستی روی پیش‌نمایش را شامل نمی‌شود.</p></div>
+<div class="card"><h2>انگیزه‌نامه (Cover Letter)</h2><textarea id="cltext" placeholder="پیش‌نویس انگیزه‌نامه برای همین آگهی اینجا می‌آید…"></textarea><div class="row"><button id="cl" type="button">ساخت انگیزه‌نامه برای این آگهی</button><button id="cc" type="button" class="sec">کپی</button><button id="ct" type="button" class="sec">دانلود txt</button><span class="msg" id="clm"></span></div></div>
+</div>
+</div>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const S=window.localStorage;
+let cvName='cv',CUR=null;
+try{const r=S.getItem('cv_resume');if(r)$('resume').value=r}catch(e){}
+$('resume').addEventListener('input',()=>{try{S.setItem('cv_resume',$('resume').value)}catch(e){}});
+
+// ---- Theme & counter
+const root=document.documentElement;
+function setTheme(t){root.dataset.theme=t;$('thm').dataset.on=t;try{S.setItem('cv_theme',t)}catch(e){}}
+let t0=null;try{t0=S.getItem('cv_theme')}catch(e){}
+setTheme(t0||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+$('thm').onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
+$('ad').addEventListener('input',()=>{$('cnt').textContent=$('ad').value.length.toLocaleString('fa-IR')+'/۵٬۰۰۰'});
+
+// ---- PDF upload
+$('pick').onclick=()=>$('file').click();
+$('file').onchange=e=>e.target.files[0]&&readPdf(e.target.files[0]);
+const drop=$('drop');
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('on')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('on')}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];f&&readPdf(f)});
+
+async function readPdf(f){
+  const m=$('pmsg');m.className='msg';
+  if(f.size>10*1024*1024){m.textContent='حجم فایل بیشتر از ۱۰ مگابایت است.';m.classList.add('err');return}
+  if(!window.pdfjsLib){m.textContent='کتابخانه‌ی PDF بارگذاری نشد؛ متن را دستی بچسبان.';m.classList.add('err');return}
+  m.textContent='در حال خواندن PDF…';
+  try{
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    let out='';
+    for(let p=1;p<=pdf.numPages;p++){
+      const tc=await (await pdf.getPage(p)).getTextContent();
+      let y=null,line='';
+      for(const it of tc.items){
+        const yy=Math.round(it.transform[5]);
+        if(y!==null&&Math.abs(yy-y)>3){out+=line.trim()+'\n';line=''}
+        line+=it.str+(it.hasEOL?' ':'');y=yy;
+      }
+      out+=line.trim()+'\n\n';
+    }
+    if(out.replace(/\s/g,'').length<40)throw new Error('empty');
+    $('resume').value=out.trim();$('rdet').open=true;$('resume').dispatchEvent(new Event('input'));
+    m.textContent='متن رزومه خوانده شد. یک نگاه سریع بینداز و اگر جایی به‌هم‌ریخته بود اصلاحش کن.';
+  }catch(e){m.textContent='متن از این PDF استخراج نشد (احتمالاً اسکن‌شده است). متن را دستی بچسبان.';m.classList.add('err')}
+}
+
+// ---- Tailor
+const L={fa:{sum:'خلاصه',sk:'مهارت‌ها',ex:'سوابق کاری',ed:'تحصیلات'},en:{sum:'Summary',sk:'Skills',ex:'Experience',ed:'Education'}};
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function sec(root,title){root.appendChild(el('h2','',title))}
+function list(items){const u=el('ul');(items||[]).forEach(i=>u.appendChild(el('li','',i)));return u}
+
+function render(cv){
+  CUR=cv;const s=$('sheet');s.innerHTML='';s.dataset.tpl=$('tpl').value;
+  const fa=cv.lang==='fa',T=L[fa?'fa':'en'];
+  s.dir=fa?'rtl':'ltr';
+  s.appendChild(el('h1','',cv.name||''));
+  if(cv.title)s.appendChild(el('div','t',cv.title));
+  if(cv.contacts&&cv.contacts.length)s.appendChild(el('div','c',cv.contacts.join('  |  ')));
+  if(cv.summary){sec(s,T.sum);s.appendChild(el('div','',cv.summary))}
+  if(cv.skills&&cv.skills.length){sec(s,T.sk);const d=el('div','sk');cv.skills.forEach(k=>d.appendChild(el('span','',k)));s.appendChild(d)}
+  if(cv.experience&&cv.experience.length){sec(s,T.ex);cv.experience.forEach(j=>{
+    const d=el('div','job'),h=el('div','jh');
+    const a=el('span','',j.role||'');if(j.company){const c=el('span','co',' — '+j.company);a.appendChild(c)}
+    h.appendChild(a);h.appendChild(el('span','',j.period||''));d.appendChild(h);d.appendChild(list(j.bullets));s.appendChild(d)})}
+  if(cv.education&&cv.education.length){sec(s,T.ed);cv.education.forEach(e=>{
+    const d=el('div','job'),h=el('div','jh');
+    h.appendChild(el('span','',[e.degree,e.school].filter(Boolean).join(' — ')));h.appendChild(el('span','',e.period||''));d.appendChild(h);s.appendChild(d)})}
+  (cv.extras||[]).forEach(x=>{sec(s,x.heading||'');s.appendChild(list(x.items))});
+  $('chg').innerHTML='';(cv.changes||[]).forEach(c=>$('chg').appendChild(el('li','',c)));
+  $('gap').innerHTML='';(cv.gaps||[]).forEach(c=>$('gap').appendChild(el('li','',c)));
+  if(!(cv.gaps||[]).length)$('gap').appendChild(el('li','','مورد مهمی پیدا نشد.'));
+  cvName=(cv.name||'cv').replace(/[^\p{L}\p{N}]+/g,'_');
+  $('out').classList.remove('hide');
+  $('out').scrollIntoView({behavior:'smooth'});
+}
+
+$('go').onclick=async()=>{
+  const g=$('gmsg');g.className='msg';
+  const resume=$('resume').value.trim(),ad=$('ad').value.trim();
+  if(resume.length<40){g.textContent='اول رزومه را بارگذاری کن.';g.classList.add('err');return}
+  if(ad.length<40){g.textContent='متن آگهی را بچسبان.';g.classList.add('err');return}
+  if(/^https?:\/\/\S+$/.test(ad)){g.textContent='این فقط یک لینک است؛ متن آگهی را کپی کن.';g.classList.add('err');return}
+  const sample=await claude.use('sample');
+  if(!sample){g.textContent='این قابلیت فقط داخل claude.ai کار می‌کند.';g.classList.add('err');return}
+  $('go').disabled=true;g.textContent='در حال تحلیل آگهی و بازنویسی رزومه…';
+  const lang=$('lang').value;
+  const prompt=`You are an expert resume editor. Tailor the RESUME to the JOB AD.
+Hard rules:
+- Use ONLY facts present in the resume. Never invent jobs, skills, tools, numbers, dates, degrees or certificates.
+- You may reorder, rephrase, shorten, and emphasize existing content; mirror the ad's keywords only where the resume truly supports them.
+- Put the most relevant skills and experience first; drop or shrink irrelevant items. Aim for one page.
+- Resume text may come from PDF extraction and be messy or reordered; reconstruct it carefully.
+Output language of the CV: ${lang==='auto'?'the language of the job ad':lang==='en'?'English':'Persian'}.
+"changes" and "gaps" must always be written in Persian, short, one line each. "gaps" = requirements of the ad that the resume does not show (do NOT add them to the CV).
+Return ONLY JSON: {"lang":"fa"|"en","name":"","title":"","contacts":[""],"summary":"","skills":[""],"experience":[{"role":"","company":"","period":"","bullets":[""]}],"education":[{"degree":"","school":"","period":""}],"extras":[{"heading":"","items":[""]}],"changes":[""],"gaps":[""]}
+"lang" is the language the CV is written in.
+
+RESUME:
+${resume}
+
+JOB AD:
+${ad}`;
+  try{
+    const cv=await sample.json(prompt,{modelTier:'default',cache:false});
+    render(cv);g.textContent='';
+  }catch(e){
+    g.textContent=e&&e.code==='rate_limited'?'تعداد درخواست‌ها زیاد است؛ کمی بعد دوباره تلاش کن.':'ویرایش انجام نشد؛ دوباره امتحان کن.';g.classList.add('err');
+  }
+  $('go').disabled=false;
+};
+
+// ---- PDF download
+$('dl').onclick=async()=>{
+  const m=$('dmsg');m.className='msg';
+  if(!window.html2canvas||!window.jspdf){m.textContent='کتابخانه‌ی PDF بارگذاری نشد.';m.classList.add('err');return}
+  const dls=await claude.use('downloads');
+  if(!dls){m.textContent='دانلود در این نمایش در دسترس نیست.';m.classList.add('err');return}
+  $('dl').disabled=true;m.textContent='در حال ساخت PDF…';
+  try{
+    const sh=$('sheet');sh.blur();
+    const cv=await html2canvas(sh,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({unit:'pt',format:'a4'});
+    const W=pdf.internal.pageSize.getWidth(),H=pdf.internal.pageSize.getHeight();
+    const ph=Math.floor(cv.width*H/W);
+    for(let y=0,i=0;y<cv.height;y+=ph,i++){
+      const part=document.createElement('canvas');part.width=cv.width;part.height=Math.min(ph,cv.height-y);
+      part.getContext('2d').drawImage(cv,0,y,cv.width,part.height,0,0,cv.width,part.height);
+      if(i)pdf.addPage();
+      pdf.addImage(part.toDataURL('image/jpeg',.95),'JPEG',0,0,W,part.height*W/cv.width);
+    }
+    await dls.save({filename:cvName+'_CV.pdf',data:pdf.output('blob')});
+    m.textContent='ذخیره شد.';
+  }catch(e){m.textContent=e&&e.code==='declined'?'':'ساخت یا ذخیره‌ی PDF انجام نشد.';if(m.textContent)m.classList.add('err')}
+  $('dl').disabled=false;
+};
+
+// ---- Templates, Word, cover letter
+$('tpl').onchange=()=>{$('sheet').dataset.tpl=$('tpl').value};
+
+$('dw').onclick=async()=>{
+  const m=$('dmsg');m.className='msg';
+  const D=window.docx;
+  if(!CUR||!D){m.textContent='کتابخانه‌ی Word بارگذاری نشد.';m.classList.add('err');return}
+  const dls=await claude.use('downloads');
+  if(!dls){m.textContent='دانلود در این نمایش در دسترس نیست.';m.classList.add('err');return}
+  const fa=CUR.lang==='fa',T=L[fa?'fa':'en'];
+  const run=(t,o={})=>new D.TextRun({text:t||'',rightToLeft:fa,font:'Arial',...o});
+  const P=(r,o={})=>new D.Paragraph({children:Array.isArray(r)?r:[run(r)],bidirectional:fa,spacing:{after:60},...o});
+  const H=t=>P([run(t,{bold:true,size:24,color:'2F6DF6'})],{spacing:{before:200,after:80},border:{bottom:{style:D.BorderStyle.SINGLE,size:6,color:'2F6DF6',space:1}}});
+  const B=t=>P(t,{bullet:{level:0}});
+  const k=[P([run(CUR.name,{bold:true,size:44})])];
+  if(CUR.title)k.push(P([run(CUR.title,{size:26,color:'2F6DF6'})]));
+  if(CUR.contacts&&CUR.contacts.length)k.push(P([run(CUR.contacts.join('  |  '),{size:20,color:'555555'})]));
+  if(CUR.summary){k.push(H(T.sum),P(CUR.summary))}
+  if(CUR.skills&&CUR.skills.length){k.push(H(T.sk),P(CUR.skills.join('  •  ')))}
+  if(CUR.experience&&CUR.experience.length){k.push(H(T.ex));CUR.experience.forEach(j=>{
+    k.push(P([run(j.role,{bold:true}),run(j.company?' — '+j.company:''),run(j.period?'    '+j.period:'',{color:'666666'})],{spacing:{before:100,after:40}}));
+    (j.bullets||[]).forEach(b=>k.push(B(b)))})}
+  if(CUR.education&&CUR.education.length){k.push(H(T.ed));CUR.education.forEach(e=>k.push(P([run([e.degree,e.school].filter(Boolean).join(' — '),{bold:true}),run(e.period?'    '+e.period:'',{color:'666666'})])))}
+  (CUR.extras||[]).forEach(x=>{k.push(H(x.heading||''));(x.items||[]).forEach(i=>k.push(B(i)))});
+  m.textContent='در حال ساخت Word…';
+  try{
+    const doc=new D.Document({sections:[{properties:{page:{margin:{top:900,bottom:900,left:1000,right:1000}}},children:k}]});
+    await dls.save({filename:cvName+'_CV.docx',data:await D.Packer.toBlob(doc)});
+    m.textContent='ذخیره شد.';
+  }catch(e){m.textContent=e&&e.code==='declined'?'':'ساخت فایل Word انجام نشد.';if(m.textContent)m.classList.add('err')}
+};
+
+$('cl').onclick=async()=>{
+  const m=$('clm');m.className='msg';
+  const ad=$('ad').value.trim();
+  if(!CUR||!ad){m.textContent='اول رزومه را برای یک آگهی بساز.';m.classList.add('err');return}
+  const sample=await claude.use('sample');
+  if(!sample){m.textContent='این قابلیت فقط داخل claude.ai کار می‌کند.';m.classList.add('err');return}
+  $('cl').disabled=true;m.textContent='در حال نوشتن…';
+  const {changes,gaps,...c}=CUR;
+  const prompt=`Write a concise, professional cover letter (150-250 words, plain text, no markdown) for the job ad below, based ONLY on the CV data. Never invent facts, numbers or employers. Address it to the hiring team generically. Write it in ${CUR.lang==='fa'?'Persian':'English'}. Highlight the 2-3 strongest matches between the CV and the ad and end with a short call to action.\n\nCV DATA:\n${JSON.stringify(c)}\n\nJOB AD:\n${ad}`;
+  try{
+    const r=await sample(prompt,{cache:false});
+    $('cltext').value=r.text.trim();$('cltext').dir=CUR.lang==='fa'?'rtl':'ltr';m.textContent='';
+  }catch(e){m.textContent='نوشتن انجام نشد؛ دوباره امتحان کن.';m.classList.add('err')}
+  $('cl').disabled=false;
+};
+$('cc').onclick=async()=>{
+  const m=$('clm');
+  try{await navigator.clipboard.writeText($('cltext').value);m.className='msg';m.textContent='کپی شد.'}
+  catch(e){$('cltext').select();m.className='msg';m.textContent='متن انتخاب شد؛ با Ctrl+C کپی کن.'}
+};
+$('ct').onclick=async()=>{
+  const m=$('clm');m.className='msg';
+  const t=$('cltext').value.trim();if(!t)return;
+  const dls=await claude.use('downloads');
+  if(!dls){m.textContent='دانلود در این نمایش در دسترس نیست.';m.classList.add('err');return}
+  try{await dls.save({filename:cvName+'_cover_letter.txt',data:t})}catch(e){}
+};
+</script>
+</body>
+</html>
